@@ -1,0 +1,49 @@
+.authPage {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+  padding-top: 2.5rem; 
+
+}
+.pageTitle {
+  text-align: center;
+  font-size: 33px;
+  font-weight: bold;
+  margin-bottom: 2rem; 
+   font-family: 'Kalameh Bold', sans-serif;
+   color: #282828;
+}
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 40px;
+  /* box-shadow: 0 4px 12px rgba(0,0,0,0.1); */
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  font-family: 'Vazirmatn', sans-serif;
+  border:1px #E4E4E4  solid ;
+
+}
+.card h3 {
+    color: #282828;
+    font-size: 24px;
+}
+.toggleText {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-align: right;
+  color: #282828;
+  
+}
+
+.toggleLink {
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+.formLogo{
+    color: #282828;
+}
