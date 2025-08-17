@@ -1,0 +1,160 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+
+.searchBox {
+  width: 1140px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: white;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative; 
+}
+
+.searchInput {
+  flex: 1;
+  height: 60px;
+  border-radius: 16px;
+  border: 1px solid #E4E4E4cc;
+  font-size: 18px;
+  padding: 0 40px 0 120px; 
+  text-align: right;
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+.leftContent {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.leftImg {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.leftTextBox {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.leftText {
+  font-weight: 600;
+}
+
+.modir {
+  font-size: 14px;
+  color: gray;
+  padding-left: 50px;
+}
+
+.rightIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+}
+
+
+.productTitel {
+  width: 1140px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  margin-top: 40px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.productTitelRight {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.productTitelButton {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  background-color: #55A3F0;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Vazirmatn', sans-serif;
+  width: 132px;
+  height: 45px;
+}
+
+
+.ProductManagmentTable {
+  margin-top: 20px;
+  width: 1140px;
+  height: 790px;
+}
+
+.ProductTable {
+  width: 100%;
+  border-collapse: separate;   
+  border-spacing: 0;           
+  border: 1px solid #E4E4E4;
+  border-radius: 16px;
+  overflow: hidden;
+  text-align: center;
+  direction: rtl;
+  color: #282828;
+}
+
+.ProductTable th,
+.ProductTable td {
+  border-bottom: 1px solid #ddd;
+  padding: 12px;
+    vertical-align: middle;
+      height: 60px;              
+}
+
+.ProductTable th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.ProductTable tr:last-child td {
+  border-bottom: none; 
+}
+
+.ProductTable tbody tr:hover {
+  background-color: #f9f9f9; 
+}
+.actionTable{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;   
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
