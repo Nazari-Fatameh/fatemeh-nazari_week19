@@ -5,22 +5,16 @@ import ReusableForm from "../Components/ReusableForm.jsx";
 import Styles from "./AuthPage.module.css";
 import { registerUser, loginUser } from "../Services/api.js";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom"; // ✅ اضافه شد
+import { useNavigate } from "react-router-dom";
 
-// 📌 اعتبارسنجی فرم ثبت‌نام
 const registerSchema = Yup.object().shape({
-  username: Yup.string()
-    .required("نام کاربری الزامی است")
-    .min(3, "نام کاربری باید حداقل ۳ کاراکتر باشد"),
-  password: Yup.string()
-    .required("رمز عبور الزامی است")
-    .min(6, "رمز عبور باید حداقل ۶ کاراکتر باشد"),
+  username: Yup.string().required("نام کاربری الزامی است").min(3),
+  password: Yup.string().required("رمز عبور الزامی است").min(6),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password"), null], "رمز عبور و تکرار آن یکسان نیست")
     .required("تکرار رمز عبور الزامی است"),
 });
 
-// 📌 اعتبارسنجی فرم ورود
 const loginSchema = Yup.object().shape({
   username: Yup.string().required("نام کاربری الزامی است"),
   password: Yup.string().required("رمز عبور الزامی است"),
@@ -28,41 +22,38 @@ const loginSchema = Yup.object().shape({
 
 export default function AuthPage() {
   const [errors, setErrors] = useState({});
-  const [isLogin, setIsLogin] = useState(false);
-  const navigate = useNavigate(); // ✅ برای تغییر صفحه
+  const [isLogin, setIsLogin] = useState(true);
+  const navigate = useNavigate(); 
 
-  // 📌 میوتیشن ثبت‌نام
   const registerMutation = useMutation({
     mutationFn: ({ username, password }) => registerUser({ username, password }),
     onSuccess: () => {
       setErrors({});
       toast.success("ثبت‌نام با موفقیت انجام شد!");
       setIsLogin(true);
-      navigate("/ProductManagment"); // ✅ انتقال به صفحه مدیریت
     },
     onError: (err) => {
       const message = err.response?.data?.message || "خطا در ثبت‌نام";
       setErrors({ form: message });
-      toast.error("نام کاربری وارد شده قبلا استفاده شده است");
+      toast.error(message);
     },
   });
 
-  // 📌 میوتیشن ورود
   const loginMutation = useMutation({
     mutationFn: ({ username, password }) => loginUser({ username, password }),
-    onSuccess: () => {
+    onSuccess: (res) => {
       setErrors({});
       toast.success("ورود با موفقیت انجام شد!");
-      navigate("/ProductManagment"); // ✅ انتقال به صفحه مدیریت
+      localStorage.setItem("token", res.data.token); 
+      navigate("/ProductManagment"); 
     },
     onError: (err) => {
       const message = err.response?.data?.message || "خطا در ورود";
       setErrors({ form: message });
-      toast.error("رمز صحیح نمی باشد");
+      toast.error(message);
     },
   });
 
-  // 📌 هندل کردن ارسال فرم
   const handleSubmit = async (data) => {
     setErrors({});
     try {
@@ -79,13 +70,11 @@ export default function AuthPage() {
         const formErrors = {};
         err.inner.forEach((e) => (formErrors[e.path] = e.message));
         setErrors(formErrors);
-
         if (err.inner.length > 0) toast.error(err.inner[0].message);
       }
     }
   };
 
-  // 📌 فیلدهای فرم
   const fields = isLogin
     ? [
         { name: "username", type: "text", placeholder: "نام کاربری" },
@@ -103,21 +92,15 @@ export default function AuthPage() {
       <div className={Styles.card}>
         <img src="/Photos/Union.png" alt="logo" className={Styles.formLogo} />
         <h3>{isLogin ? "فرم ورود" : "فرم ثبت‌نام"}</h3>
-
         {errors.form && <p className={Styles.error}>{errors.form}</p>}
-
         <ReusableForm
           fields={fields}
           buttonText={isLogin ? "ورود" : "ثبت‌نام"}
           onSubmit={handleSubmit}
           errors={errors}
         />
-
         <p className={Styles.toggleText}>
-          <span
-            className={Styles.toggleLink}
-            onClick={() => setIsLogin(!isLogin)}
-          >
+          <span className={Styles.toggleLink} onClick={() => setIsLogin(!isLogin)}>
             {isLogin ? "ایجاد حساب کاربری!؟" : "آیا حساب کاربری داری؟"}
           </span>
         </p>

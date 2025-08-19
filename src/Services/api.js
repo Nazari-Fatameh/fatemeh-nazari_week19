@@ -2,17 +2,19 @@ import axios from "axios";
 
 const API_BASE = "http://localhost:3000";
 
-export const registerUser = (data) => {
-  return axios.post(`${API_BASE}/auth/register`, data);
-};
+const getToken = () => localStorage.getItem("token");
 
-export const loginUser = (data) => {
-  return axios.post(`${API_BASE}/auth/login`, data);
-};
+export const registerUser = (data) =>
+  axios.post(`${API_BASE}/auth/register`, data);
 
-export const getProducts = () => {
-  return axios.get(`${API_BASE}/products`).then((res) => res.data);
-};
-export const addProducts = (data) => {
-  return axios.post(`${API_BASE}/Products`, data).then((res) => res.data);
-};
+export const loginUser = (data) => axios.post(`${API_BASE}/auth/login`, data);
+
+export const getProducts = () =>
+  axios.get(`${API_BASE}/products`, {
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
+
+export const addProduct = (data) =>
+  axios.post(`${API_BASE}/products`, data, {
+    headers: { Authorization: `Bearer ${getToken()}` },
+  }).then(res => res.data);
