@@ -1,13 +1,17 @@
-
 import React, { useEffect, useState } from "react";
 import styles from "./ProductManagment.module.css";
-import { getProducts, addProduct } from "../Services/api";
+import { getProducts, addProduct, deleteProduct } from "../Services/api";
 import ModalAddProduct from "../Components/ModalAddProduct.jsx";
+import ModalDeleteProduct from "../Components/ModalDeleteProduct.jsx"; 
 
 function ProductManagment() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -17,12 +21,7 @@ function ProductManagment() {
     setLoading(true);
     try {
       const res = await getProducts();
-      console.log("Response from API:", res);
-
-      
       const productsArray = res.data?.data || [];
-      console.log("Products from API:", productsArray);
-
       setProducts(productsArray);
     } catch (err) {
       console.error("خطا در دریافت محصولات:", err);
@@ -33,16 +32,33 @@ function ProductManagment() {
 
   const handleAddProduct = async (newProduct) => {
     try {
-      const res = await addProduct(newProduct);
-      console.log("Add product response:", res);
-
-    
+      await addProduct(newProduct);
       await fetchProducts();
       setShowModal(false);
     } catch (error) {
       console.error("خطا در اضافه کردن محصول:", error);
     }
   };
+
+
+  const handleDeleteClick = (product) => {
+    setSelectedProduct(product);
+    setShowDeleteModal(true);
+  };
+
+  
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteProduct(selectedProduct.id); 
+      await fetchProducts(); 
+      setShowDeleteModal(false);
+    } catch (err) {
+      console.error("خطا در حذف محصول:", err);
+    }
+  };
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className={styles.container}>
@@ -52,6 +68,8 @@ function ProductManagment() {
             type="text"
             placeholder="جستجو کالا"
             className={styles.searchInput}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className={styles.leftContent}>
             <div className={styles.leftTextBox}>
@@ -91,7 +109,7 @@ function ProductManagment() {
 
       {loading ? (
         <p>در حال بارگذاری محصولات...</p>
-      ) : products.length === 0 ? (
+      ) : filteredProducts.length === 0 ? (
         <p>هیچ محصولی یافت نشد.</p>
       ) : (
         <div className={styles.ProductManagmentTable}>
@@ -106,7 +124,7 @@ function ProductManagment() {
               </tr>
             </thead>
             <tbody>
-              {products.map((item) => (
+              {filteredProducts.map((item) => (
                 <tr key={item.id || Math.random()}>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
@@ -122,6 +140,7 @@ function ProductManagment() {
                       src="./Photos/trash.svg"
                       alt="delete"
                       className={styles.actionIcon}
+                      onClick={() => handleDeleteClick(item)}
                     />
                   </td>
                 </tr>
@@ -135,6 +154,14 @@ function ProductManagment() {
         <ModalAddProduct
           onClose={() => setShowModal(false)}
           onAdd={handleAddProduct}
+        />
+      )}
+
+      {showDeleteModal && (
+        <ModalDeleteProduct
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={handleConfirmDelete}
+          productName={selectedProduct?.name}
         />
       )}
     </div>

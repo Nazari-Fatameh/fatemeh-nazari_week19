@@ -15,6 +15,13 @@ export const getProducts = () =>
   });
 
 export const addProduct = (data) =>
-  axios.post(`${API_BASE}/products`, data, {
+  axios
+    .post(`${API_BASE}/products`, data, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    })
+    .then((res) => res.data);
+
+export const deleteProduct = (id) =>
+  axios.delete(`${API_BASE}/products/${id}`, {
     headers: { Authorization: `Bearer ${getToken()}` },
-  }).then(res => res.data);
+  });
