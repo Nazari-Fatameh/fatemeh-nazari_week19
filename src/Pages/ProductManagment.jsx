@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ProductManagment.module.css";
-import { getProducts, addProduct, deleteProduct } from "../Services/api";
+import { getProducts, addProduct, deleteProduct, editProduct } from "../Services/api";
+
 import ModalAddProduct from "../Components/ModalAddProduct.jsx";
-import ModalDeleteProduct from "../Components/ModalDeleteProduct.jsx"; 
+import ModalDeleteProduct from "../Components/ModalDeleteProduct.jsx";
+import ModalEditProduct from "../Components/ModalEditProduct.jsx";
 
 function ProductManagment() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showModal, setShowModal] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -34,29 +36,43 @@ function ProductManagment() {
     try {
       await addProduct(newProduct);
       await fetchProducts();
-      setShowModal(false);
+      setShowAddModal(false);
     } catch (error) {
       console.error("خطا در اضافه کردن محصول:", error);
     }
   };
-
 
   const handleDeleteClick = (product) => {
     setSelectedProduct(product);
     setShowDeleteModal(true);
   };
 
-  
   const handleConfirmDelete = async () => {
     try {
-      await deleteProduct(selectedProduct.id); 
-      await fetchProducts(); 
+      await deleteProduct(selectedProduct.id);
+      await fetchProducts();
       setShowDeleteModal(false);
     } catch (err) {
       console.error("خطا در حذف محصول:", err);
     }
   };
-  const filteredProducts = products.filter(product =>
+
+  const handleEditClick = (product) => {
+    setSelectedProduct(product);
+    setShowEditModal(true);
+  };
+
+  const handleConfirmEdit = async (updatedProduct) => {
+    try {
+      await editProduct(selectedProduct.id, updatedProduct);
+      await fetchProducts();
+      setShowEditModal(false);
+    } catch (err) {
+      console.error("خطا در ویرایش محصول:", err);
+    }
+  };
+
+  const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -93,7 +109,7 @@ function ProductManagment() {
       <div className={styles.productTitel}>
         <button
           className={styles.productAddButton}
-          onClick={() => setShowModal(true)}
+          onClick={() => setShowAddModal(true)}
         >
           افزودن محصول
         </button>
@@ -135,6 +151,7 @@ function ProductManagment() {
                       src="./Photos/edit.svg"
                       alt="edit"
                       className={styles.actionIcon}
+                      onClick={() => handleEditClick(item)}
                     />
                     <img
                       src="./Photos/trash.svg"
@@ -150,10 +167,18 @@ function ProductManagment() {
         </div>
       )}
 
-      {showModal && (
+      {showAddModal && (
         <ModalAddProduct
-          onClose={() => setShowModal(false)}
+          onClose={() => setShowAddModal(false)}
           onAdd={handleAddProduct}
+        />
+      )}
+
+      {showEditModal && (
+        <ModalEditProduct
+          product={selectedProduct}
+          onClose={() => setShowEditModal(false)}
+          onSave={handleConfirmEdit}
         />
       )}
 

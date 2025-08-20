@@ -25,3 +25,7 @@ export const deleteProduct = (id) =>
   axios.delete(`${API_BASE}/products/${id}`, {
     headers: { Authorization: `Bearer ${getToken()}` },
   });
+export const editProduct = (id, data) =>
+  axios.put(`${API_BASE}/products/${id}`, data, {
+    headers: { Authorization: `Bearer ${getToken()}` },
+  });
