@@ -56,4 +56,4 @@
 
 1. پروژه را کلون کنید:  
 ```bash
-git clone <repository-url>
+git clone https://github.com/Nazari-Fatameh/fatemeh-nazari_week19.git
