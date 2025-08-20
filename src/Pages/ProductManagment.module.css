@@ -44,22 +44,26 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  
+    border-right: 1px solid #ccc; 
 }
 
 .leftImg {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 50%; 
+  margin-right: 10px;
 }
 
 .leftTextBox {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
+
 }
 
 .leftText {
-  font-weight: 600;
+  font-weight: 400;
 }
 
 .modir {
@@ -157,4 +161,36 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+.pagination{
+  width: 131px;
+  height: 35px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: auto;
+  gap: 10px;
+  margin-top: 20px;
+  font-family: 'Vazirmatn', sans-serif;
+
+}
+.pageButton{
+  padding: 10px 10px 10px;
+  border-radius: 60px;
+  border: 2px rgba(141, 141, 141, 0.5) solid;
+  color: rgba(141, 141, 141, 0.5);
+  background-color: #ffffff;
+  width: 35px ;
+  height: 35px;
+cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Vazirmatn', sans-serif;
+
+}
+.activePage {
+  background-color: rgba(85, 163, 240, 1);
+  color: white; 
+  border-color: rgba(85, 163, 240, 1);
 }

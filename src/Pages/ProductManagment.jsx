@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import styles from "./ProductManagment.module.css";
-import { getProducts, addProduct, deleteProduct, editProduct } from "../Services/api";
+import {
+  getProducts,
+  addProduct,
+  deleteProduct,
+  editProduct,
+} from "../Services/api";
 
 import ModalAddProduct from "../Components/ModalAddProduct.jsx";
 import ModalDeleteProduct from "../Components/ModalDeleteProduct.jsx";
 import ModalEditProduct from "../Components/ModalEditProduct.jsx";
+
+const toPersianDigits = (num) => {
+  return num.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+};
 
 function ProductManagment() {
   const [products, setProducts] = useState([]);
@@ -15,16 +24,21 @@ function ProductManagment() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+  const [totalPages, setTotalPages] = useState(1);
+
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [currentPage, searchTerm]);
 
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await getProducts();
-      const productsArray = res.data?.data || [];
-      setProducts(productsArray);
+      const res = await getProducts(currentPage, itemsPerPage, searchTerm);
+      setProducts(res.data.data || []);
+      setTotalPages(res.data.totalPages || 1);
     } catch (err) {
       console.error("خطا در دریافت محصولات:", err);
     } finally {
@@ -72,12 +86,9 @@ function ProductManagment() {
     }
   };
 
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <div className={styles.container}>
+      
       <header className={styles.searchBox}>
         <div className={styles.inputWrapper}>
           <input
@@ -85,8 +96,12 @@ function ProductManagment() {
             placeholder="جستجو کالا"
             className={styles.searchInput}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
           />
+
           <div className={styles.leftContent}>
             <div className={styles.leftTextBox}>
               <span className={styles.leftText}>میلاد اعظمی</span>
@@ -98,6 +113,7 @@ function ProductManagment() {
               className={styles.leftImg}
             />
           </div>
+
           <img
             src="/Photos/search-normal.svg"
             alt="search"
@@ -106,6 +122,7 @@ function ProductManagment() {
         </div>
       </header>
 
+    
       <div className={styles.productTitel}>
         <button
           className={styles.productAddButton}
@@ -123,9 +140,10 @@ function ProductManagment() {
         </div>
       </div>
 
+     
       {loading ? (
         <p>در حال بارگذاری محصولات...</p>
-      ) : filteredProducts.length === 0 ? (
+      ) : products.length === 0 ? (
         <p>هیچ محصولی یافت نشد.</p>
       ) : (
         <div className={styles.ProductManagmentTable}>
@@ -136,16 +154,17 @@ function ProductManagment() {
                 <th>موجودی</th>
                 <th>قیمت</th>
                 <th>شناسه کالا</th>
-                <th>عملیات</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {filteredProducts.map((item) => (
-                <tr key={item.id || Math.random()}>
+              {products.map((item) => (
+                <tr key={item.id}>
                   <td>{item.name}</td>
-                  <td>{item.quantity}</td>
-                  <td>{item.price}</td>
-                  <td>{item.id}</td>
+                  <td>{toPersianDigits(item.quantity)}</td>
+                  <td>{toPersianDigits(item.price)} هزار تومان</td>
+
+                  <td>{toPersianDigits(item.id)}</td>
                   <td className={styles.actionTable}>
                     <img
                       src="./Photos/edit.svg"
@@ -164,9 +183,25 @@ function ProductManagment() {
               ))}
             </tbody>
           </table>
+
+          
+          <div className={styles.pagination}>
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => setCurrentPage(index + 1)}
+                className={`${styles.pageButton} ${
+                  currentPage === index + 1 ? styles.activePage : ""
+                }`}
+              >
+                {toPersianDigits(index + 1)}
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
+      
       {showAddModal && (
         <ModalAddProduct
           onClose={() => setShowAddModal(false)}
