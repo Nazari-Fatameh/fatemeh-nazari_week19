@@ -8,7 +8,7 @@
 ## 📸 تصاویر پروژه
 
 <p align="center">
-  <img src="./ReadmePhotos/managePage.png" alt="صفحه مدیریت کالا" width="300"/><br/>
+  <img src="./ReadmePhotos/managePage.png" alt="صفحه مدیریت کالا" width="300" height="400"/><br/>
   <sub>صفحه مدیریت کالا</sub>
 </p>
 
