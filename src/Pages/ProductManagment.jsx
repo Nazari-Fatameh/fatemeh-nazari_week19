@@ -104,7 +104,7 @@ function ProductManagment() {
 
           <div className={styles.leftContent}>
             <div className={styles.leftTextBox}>
-              <span className={styles.leftText}>میلاد اعظمی</span>
+              <span className={styles.leftText}>میلاد عظمی</span>
               <span className={styles.modir}>مدیر</span>
             </div>
             <img
