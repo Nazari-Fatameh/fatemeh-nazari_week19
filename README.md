@@ -1,59 +1,59 @@
-# 🛒 پروژه مدیریت کالا (Product Management)
+# 🛒 Product Management Project
 
-یک پروژه‌ی مدیریت کالا که با **React + Vite** ساخته شده و به **API واقعی (Swapper)** متصل است.  
-در این پروژه امکان **افزودن، ویرایش، حذف، جستجو و صفحه‌بندی (Pagination)** برای کالاها وجود دارد.
+A product management project built with **React + Vite**, connected to a **real API (Swapper)**.  
+The project includes **add, edit, delete, search, and pagination** features for managing products.
 
 ---
 
-## 📸 تصاویر پروژه
+## 📸 Project Screenshots
 
 <p align="center">
-  <img src="./ReadmePhotos/managePage.png" alt="صفحه مدیریت کالا" width="350" height="400"/><br/>
-  <sub>صفحه مدیریت کالا</sub>
+  <img src="./ReadmePhotos/managePage.png" alt="Product Management Page" width="350" height="400"/><br/>
+  <sub>Product Management Page</sub>
 </p>
 
 <p align="center">
-  <img src="./ReadmePhotos/registerPage.png" alt="ثبت نام" width="300"/><br/>
-  <sub>صفحه ثبت‌نام</sub>
+  <img src="./ReadmePhotos/registerPage.png" alt="Register Page" width="300"/><br/>
+  <sub>Register Page</sub>
 </p>
 
 ---
 
-## 🚀 ویژگی‌ها
+## 🚀 Features
 
-- ➕ افزودن کالا  
-- 📝 ویرایش کالا  
-- ❌ حذف کالا  
-- 🔍 جستجو در لیست کالاها  
-- 📑 صفحه‌بندی (Pagination)  
-- 🔐 احراز هویت (ثبت‌نام و ورود کاربر به کمک API)  
-- 🎨 طراحی ماژولار با CSS Modules  
-
----
-
-## 📦 تکنولوژی‌ها
-
-- ⚛️ React (با Vite)  
-- 📡 Axios برای ارتباط با API  
-- 🔗 Swapper API برای مدیریت داده‌ها  
-- 🎨 CSS Modules برای استایل‌دهی  
+- ➕ Add new products  
+- 📝 Edit product details  
+- ❌ Delete products  
+- 🔍 Search products by name  
+- 📑 Pagination for product list  
+- 🔐 Authentication (Register & Login using API)  
+- 🎨 Modular design with CSS Modules  
 
 ---
 
-## 📝 توضیح کوتاه
+## 📦 Technologies
 
-در این پروژه، کاربران می‌توانند:
-- لیست کالاها را مشاهده کنند.  
-- کالاهای جدید اضافه کنند.  
-- موجودی و قیمت کالاها را ویرایش کنند.  
-- کالاها را حذف کنند.  
-- با استفاده از سرچ، کالاها را فیلتر کنند.  
-- با صفحه‌بندی، بین صفحات مختلف کالاها جابجا شوند.  
+- ⚛️ React (with Vite)  
+- 📡 Axios for API communication  
+- 🔗 Swapper API for product data  
+- 🎨 CSS Modules for styling  
 
 ---
 
-## 💻 نصب و اجرا
+## 📝 Short Description
 
-1. پروژه را کلون کنید:  
+In this project, users can:  
+- View the list of products  
+- Add new products  
+- Edit stock and price of products  
+- Delete products  
+- Filter products with a search bar  
+- Navigate through product pages with pagination  
+
+---
+
+## 💻 Installation & Run
+
+1. Clone the repository:  
 ```bash
 git clone https://github.com/Nazari-Fatameh/fatemeh-nazari_week19.git
